@@ -6,7 +6,7 @@ const Itel = document.querySelector(".tel")
 
 function cadastrar() {
 
-    fetch("http://localhost:8080/cadastrar",
+    fetch("http://localhost:8080/usuarios",
         {
             headers: {
                 'Accept': 'application/json',
@@ -28,6 +28,7 @@ function limpar() {
     Inome.value = "";
     Iemail.value = "";
     Inome.value = "";
+    Isenha.value = "";
     Itel.value = "";
 };
 

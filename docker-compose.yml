@@ -9,9 +9,3 @@ services:
       MYSQL_PASSWORD: wasaloko
     ports:
       - "3306:3306"
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    environment:
-      PMA_HOST: db
-    ports:
-      - "8080:80"

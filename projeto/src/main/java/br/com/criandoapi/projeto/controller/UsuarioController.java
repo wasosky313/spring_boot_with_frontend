@@ -1,8 +1,8 @@
 package br.com.criandoapi.projeto.controller;
 
 import java.util.List;
-import java.util.Optional;
 
+import br.com.criandoapi.projeto.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.criandoapi.projeto.DAO.IUsuario;
+import br.com.criandoapi.projeto.repository.IUsuario;
 import br.com.criandoapi.projeto.model.Usuario;
 
 @RestController
@@ -23,30 +23,30 @@ import br.com.criandoapi.projeto.model.Usuario;
 @RequestMapping("/usuarios")
 public class UsuarioController {
 	
-	@Autowired
-	private IUsuario dao;
+	private UsuarioService usuarioService;
+
+	public UsuarioController(UsuarioService usuarioService) {
+		this.usuarioService = usuarioService;
+	}
 	
 	@GetMapping
 	public ResponseEntity<List<Usuario>> listaUsuarios () {
-		List<Usuario> lista = (List<Usuario>) dao.findAll();
-		return ResponseEntity.status(200).body(lista);
+		return ResponseEntity.status(200).body(usuarioService.listarUsuario());
 	}
 	
 	@PostMapping
 	public ResponseEntity<Usuario> criarUsuario(@RequestBody Usuario usuario) {
-		Usuario usuarioNovo = dao.save(usuario);
-		return ResponseEntity.status(201).body(usuarioNovo) ;
+		return ResponseEntity.status(201).body(usuarioService.criarUsuario(usuario));
 	}
 	
 	@PutMapping
 	public ResponseEntity<Usuario> editarUsuario(@RequestBody Usuario usuario) {
-		Usuario usuarioNovo = dao.save(usuario);
-		return ResponseEntity.status(201).body(usuarioNovo) ;
+		return ResponseEntity.status(200).body(usuarioService.editarUsuario(usuario));
 	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> excluirUsuario (@PathVariable Integer id) { /* com <?> decimos que é um objeto genérico*/
-		dao.deleteById(id);
+		usuarioService.excluirUsuario(id);
 		return ResponseEntity.status(204).build();  /* build para quando não tem corpo*/
 	}
 	

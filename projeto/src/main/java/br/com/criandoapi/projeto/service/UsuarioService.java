@@ -2,6 +2,8 @@ package br.com.criandoapi.projeto.service;
 
 import br.com.criandoapi.projeto.model.Usuario;
 import br.com.criandoapi.projeto.repository.IUsuario;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -40,5 +42,11 @@ public class UsuarioService {
     public Boolean excluirUsuario(Integer id) {
         repository.deleteById(id);
         return true;
+    }
+
+    public Boolean validarSenha(Usuario usuario) {
+        String senha = repository.getById(usuario.getId()).getSenha();
+        Boolean valid = passwordEncoder.matches(usuario.getSenha(), senha);
+        return valid;
     }
 }

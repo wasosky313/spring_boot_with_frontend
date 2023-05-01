@@ -4,6 +4,7 @@ import java.util.List;
 
 import br.com.criandoapi.projeto.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -49,5 +50,13 @@ public class UsuarioController {
 		usuarioService.excluirUsuario(id);
 		return ResponseEntity.status(204).build();  /* build para quando não tem corpo*/
 	}
-	
+
+	@PostMapping("/login")
+	public ResponseEntity<Usuario> validaSenha(@RequestBody Usuario usuario) {
+		Boolean valid = usuarioService.validarSenha(usuario);
+		if (valid) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		}
+		return ResponseEntity.status(200).build();
+	}
 }

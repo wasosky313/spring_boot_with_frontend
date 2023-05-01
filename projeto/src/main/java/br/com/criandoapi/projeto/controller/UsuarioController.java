@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.criandoapi.projeto.model.Usuario;
 
+import javax.validation.Valid;
+
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/usuarios")
@@ -34,12 +36,12 @@ public class UsuarioController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Usuario> criarUsuario(@RequestBody Usuario usuario) {
+	public ResponseEntity<Usuario> criarUsuario(@Valid @RequestBody Usuario usuario) {
 		return ResponseEntity.status(201).body(usuarioService.criarUsuario(usuario));
 	}
 	
 	@PutMapping
-	public ResponseEntity<Usuario> editarUsuario(@RequestBody Usuario usuario) {
+	public ResponseEntity<Usuario> editarUsuario(@Valid @RequestBody Usuario usuario) {
 		return ResponseEntity.status(200).body(usuarioService.editarUsuario(usuario));
 	}
 	
@@ -50,7 +52,7 @@ public class UsuarioController {
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<Usuario> validaSenha(@RequestBody Usuario usuario) {
+	public ResponseEntity<Usuario> validaSenha(@Valid @RequestBody Usuario usuario) {
 		Boolean valid = usuarioService.validarSenha(usuario);
 		if (valid) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
